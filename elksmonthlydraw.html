@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Elks Monthly Membership Drawing</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #111827, #1f2937);
+      color: white;
+      overflow: hidden;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      text-align: center;
+      padding: 40px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      margin-top: 0;
+      font-size: 2.8rem;
+      margin-bottom: 30px;
+    }
+
+    button {
+      padding: 18px 36px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      cursor: pointer;
+      background: #3b82f6;
+      color: white;
+      transition: all 0.2s ease;
+      margin-bottom: 40px;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: #2563eb;
+    }
+
+    .number-display {
+      font-size: 7rem;
+      font-weight: 900;
+      line-height: 1;
+      min-height: 120px;
+      text-shadow: 0 0 25px rgba(255,255,255,0.25);
+    }
+
+    .member-display {
+      margin-top: 25px;
+      font-size: 3rem;
+      font-weight: bold;
+      min-height: 80px;
+    }
+
+    .status {
+      margin-top: 15px;
+      opacity: 0.8;
+      font-size: 1rem;
+    }
+
+    .pop {
+      animation: pop 0.4s ease;
+    }
+
+    @keyframes pop {
+      0% {
+        transform: scale(0.7);
+        opacity: 0.3;
+      }
+      60% {
+        transform: scale(1.15);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 600px) {
+
+      .number-display {
+        font-size: 4rem;
+      }
+
+      .member-display {
+        font-size: 1.8rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Cranberry Elks Monthly Membership Drawing</h1>
+
+    <button onclick="generateMember()">
+      Draw a Member 
+    </button>
+
+    <div id="numberDisplay" class="number-display">
+      ---
+    </div>
+
+    <div id="memberDisplay" class="member-display">
+      Waiting...
+    </div>
+
+    <div id="status" class="status">
+      Loading members.csv...
+    </div>
+
+  </div>
+
+  <script>
+
+    let members = [];
+
+    const numberDisplay =
+      document.getElementById("numberDisplay");
+
+    const memberDisplay =
+      document.getElementById("memberDisplay");
+
+    const statusDisplay =
+      document.getElementById("status");
+
+    async function loadMembers() {
+
+      try {
+
+        const response =
+          await fetch("members.csv");
+
+        const csvText =
+          await response.text();
+
+        parseCSV(csvText);
+
+        statusDisplay.innerHTML =
+          `Loaded ${members.length} members`;
+
+      } catch (error) {
+
+        console.error(error);
+
+        statusDisplay.innerHTML =
+          "Error loading members.csv";
+      }
+    }
+
+    function parseCSV(csvText) {
+
+      const lines =
+        csvText.trim().split("\n");
+
+      lines.forEach(line => {
+
+        const parts = line.split(",");
+
+        if (parts.length >= 3) {
+
+          const memberNumber =
+            parts[0].trim();
+
+          const lastName =
+            parts[1].trim();
+
+          const firstName =
+            parts[2].trim();
+
+          members.push({
+            memberNumber,
+            firstName,
+            lastName
+          });
+        }
+      });
+    }
+
+    function generateMember() {
+
+      if (members.length === 0) {
+
+        alert("No members loaded.");
+
+        return;
+      }
+
+      const duration = 2500;
+      const intervalSpeed = 60;
+
+      let tempMember;
+
+      const interval = setInterval(() => {
+
+        tempMember =
+          members[
+            Math.floor(Math.random() * members.length)
+          ];
+
+        numberDisplay.innerHTML =
+          tempMember.memberNumber;
+
+        memberDisplay.innerHTML =
+          `${tempMember.firstName} ${tempMember.lastName}`;
+
+      }, intervalSpeed);
+
+      setTimeout(() => {
+
+        clearInterval(interval);
+
+        const finalMember =
+          members[
+            Math.floor(Math.random() * members.length)
+          ];
+
+        numberDisplay.innerHTML =
+          finalMember.memberNumber;
+
+        memberDisplay.innerHTML =
+          `${finalMember.firstName} ${finalMember.lastName}`;
+
+        numberDisplay.classList.remove("pop");
+        memberDisplay.classList.remove("pop");
+
+        void numberDisplay.offsetWidth;
+        void memberDisplay.offsetWidth;
+
+        numberDisplay.classList.add("pop");
+        memberDisplay.classList.add("pop");
+
+      }, duration);
+    }
+
+    // Load members when page starts
+    loadMembers();
+
+  </script>
+
+</body>
+</html>
