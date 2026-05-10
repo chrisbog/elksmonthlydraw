@@ -3,113 +3,220 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Elks Monthly Membership Drawing</title>
+  <title>Cranberry Elks Random Member Selector</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
 
     body {
+
       margin: 0;
+
       font-family: Arial, Helvetica, sans-serif;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #111827, #1f2937);
+
+      min-height: 100vh;
+
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+
       color: white;
+
       overflow: hidden;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
     }
 
     .container {
-      width: 90%;
-      max-width: 1000px;
-      text-align: center;
+
+      width: 100%;
+
+      height: 100vh;
+
       padding: 40px;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.08);
+
+      text-align: center;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      background: rgba(255,255,255,0.06);
+
       backdrop-filter: blur(12px);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    }
+
+    .logo {
+
+      width: 220px;
+
+      margin: 0 auto 20px auto;
     }
 
     h1 {
+
       margin-top: 0;
-      font-size: 2.8rem;
-      margin-bottom: 30px;
+
+      font-size: 6rem;
+
+      margin-bottom: 20px;
+
+      color: #3b82f6;
+
+      text-shadow: 0 0 20px rgba(59,130,246,0.5);
+    }
+
+    .subtitle {
+
+      font-size: 1.8rem;
+
+      margin-bottom: 50px;
+
+      opacity: 0.85;
+    }
+
+    .button-row {
+
+      display: flex;
+
+      justify-content: center;
+
+      gap: 20px;
+
+      flex-wrap: wrap;
+
+      margin-bottom: 60px;
     }
 
     button {
-      padding: 18px 36px;
-      border: none;
-      border-radius: 12px;
-      font-size: 1.3rem;
-      font-weight: bold;
-      cursor: pointer;
-      background: #3b82f6;
-      color: white;
-      transition: all 0.2s ease;
-      margin-bottom: 40px;
-    }
 
-    button:hover {
-      transform: scale(1.05);
+      padding: 25px 50px;
+
+      border: none;
+
+      border-radius: 14px;
+
+      font-size: 2rem;
+
+      font-weight: bold;
+
+      cursor: pointer;
+
+      transition: all 0.2s ease;
+
+      color: white;
+
       background: #2563eb;
     }
 
+    button:hover {
+
+      background: #1d4ed8;
+
+      transform: scale(1.05);
+    }
+
     .number-display {
-      font-size: 7rem;
+
+      font-size: 18rem;
+
       font-weight: 900;
+
       line-height: 1;
-      min-height: 120px;
-      text-shadow: 0 0 25px rgba(255,255,255,0.25);
+
+      min-height: 250px;
+
+      color: #3b82f6;
+
+      text-shadow: 0 0 30px rgba(59,130,246,0.5);
     }
 
     .member-display {
-      margin-top: 25px;
-      font-size: 3rem;
+
+      margin-top: 30px;
+
+      font-size: 6rem;
+
       font-weight: bold;
-      min-height: 80px;
+
+      min-height: 120px;
     }
 
     .status {
-      margin-top: 15px;
-      opacity: 0.8;
+
+      margin-top: 30px;
+
       font-size: 1rem;
+
+      opacity: 0.7;
     }
 
     .pop {
+
       animation: pop 0.4s ease;
     }
 
     @keyframes pop {
+
       0% {
+
         transform: scale(0.7);
+
         opacity: 0.3;
       }
+
       60% {
+
         transform: scale(1.15);
       }
+
       100% {
+
         transform: scale(1);
+
         opacity: 1;
       }
     }
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
+
+      h1 {
+
+        font-size: 3rem;
+      }
 
       .number-display {
-        font-size: 4rem;
+
+        font-size: 6rem;
+
+        min-height: 100px;
       }
 
       .member-display {
-        font-size: 1.8rem;
-      }
 
-      h1 {
         font-size: 2rem;
       }
+
+      button {
+
+        font-size: 1.2rem;
+
+        padding: 15px 30px;
+      }
+
+      .logo {
+
+        width: 120px;
+      }
     }
+
   </style>
 </head>
 
@@ -117,21 +224,47 @@
 
   <div class="container">
 
-    <h1>Cranberry Elks Monthly Membership Drawing</h1>
+    <!-- Replace with your lodge logo -->
+    <img
+      src="elks-logo.png"
+      class="logo"
+      alt="Elks Logo"
+    />
 
-    <button onclick="generateMember()">
-      Draw a Member 
-    </button>
+    <h1>Cranberry Elks</h1>
 
-    <div id="numberDisplay" class="number-display">
+    <div class="subtitle">
+      Random Member Drawing
+    </div>
+
+    <div class="button-row">
+
+      <button onclick="generateMember()">
+
+        🎲 Draw A Member
+
+      </button>
+
+    </div>
+
+    <div
+      id="numberDisplay"
+      class="number-display">
+
       ---
     </div>
 
-    <div id="memberDisplay" class="member-display">
+    <div
+      id="memberDisplay"
+      class="member-display">
+
       Waiting...
     </div>
 
-    <div id="status" class="status">
+    <div
+      id="status"
+      class="status">
+
       Loading members.csv...
     </div>
 
@@ -181,23 +314,21 @@
 
       lines.forEach(line => {
 
-        const parts = line.split(",");
+        const parts =
+          line.split(",");
 
         if (parts.length >= 3) {
 
-          const memberNumber =
-            parts[0].trim();
-
-          const lastName =
-            parts[1].trim();
-
-          const firstName =
-            parts[2].trim();
-
           members.push({
-            memberNumber,
-            firstName,
-            lastName
+
+            memberNumber:
+              parts[0].trim(),
+
+            lastName:
+              parts[1].trim(),
+
+            firstName:
+              parts[2].trim()
           });
         }
       });
@@ -212,14 +343,13 @@
         return;
       }
 
-      const duration = 2500;
-      const intervalSpeed = 60;
+      const duration = 3000;
 
-      let tempMember;
+      const intervalSpeed = 60;
 
       const interval = setInterval(() => {
 
-        tempMember =
+        const tempMember =
           members[
             Math.floor(Math.random() * members.length)
           ];
@@ -247,19 +377,23 @@
         memberDisplay.innerHTML =
           `${finalMember.firstName} ${finalMember.lastName}`;
 
-        numberDisplay.classList.remove("pop");
-        memberDisplay.classList.remove("pop");
+        animatePop(numberDisplay);
 
-        void numberDisplay.offsetWidth;
-        void memberDisplay.offsetWidth;
-
-        numberDisplay.classList.add("pop");
-        memberDisplay.classList.add("pop");
+        animatePop(memberDisplay);
 
       }, duration);
     }
 
-    // Load members when page starts
+    function animatePop(element) {
+
+      element.classList.remove("pop");
+
+      void element.offsetWidth;
+
+      element.classList.add("pop");
+    }
+
+    // Initial load
     loadMembers();
 
   </script>
